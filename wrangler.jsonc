@@ -1,0 +1,16 @@
+// Cloudflare Workers（静的アセット）へのデプロイ設定
+// name は Cloudflare ダッシュボードで作成したプロジェクト名と一致させる
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "board-games",
+  "compatibility_date": "2026-11-01",
+  // ダッシュボードでビルドコマンドを設定していなくても、デプロイ前に必ずビルドする
+  "build": {
+    "command": "pnpm build",
+  },
+  // PR ごとのプレビュー（npx wrangler preview）に必要。中身は空でよい
+  "previews": {},
+  "assets": {
+    "directory": "./dist",
+  },
+}
