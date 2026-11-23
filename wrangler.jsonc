@@ -1,0 +1,10 @@
+// Cloudflare Workers（静的アセット）へのデプロイ設定
+// name は Cloudflare ダッシュボードで作成したプロジェクト名と一致させる
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "board-games",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+  },
+}

@@ -39,15 +39,19 @@ e2e/               Playwright のテスト
 
 `core` / `games` / `ai` / `session` から `phaser` や `ui` を import すると ESLint がエラーにします。
 
-## 公開（Cloudflare Pages）
+## 公開（Cloudflare）
 
-Cloudflare のダッシュボードで一度だけ設定すれば、`main` へのマージで自動公開され、PR ごとにプレビュー URL も発行されます。
+Cloudflare のダッシュボードで一度だけ設定すれば、`main` へのマージで自動公開されます。
+デプロイ設定は `wrangler.jsonc` にあり、ビルド結果の `dist/` を静的サイトとして配信します。
 
-1. Cloudflare ダッシュボード → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**
+1. Cloudflare ダッシュボード → **Workers & Pages** → **Create** → **Import a repository**
 2. リポジトリ `y4mas1ro/board-games` を選択
-3. ビルド設定
-   - Framework preset: `None`
+3. 設定
+   - Project name: `board-games`（`wrangler.jsonc` の `name` と同じにする。変える場合は両方を合わせる）
    - Build command: `pnpm build`
-   - Build output directory: `dist`
-   - 環境変数: `NODE_VERSION` = `22`
-4. **Save and Deploy**
+   - Deploy command: `npx wrangler deploy`（既定のまま）
+   - 環境変数（Build variables）: `NODE_VERSION` = `22`
+4. **Deploy**
+
+※ リポジトリの `main` にこの設定ファイルがマージされている必要があります。マージ前にデプロイすると
+「Could not detect a directory containing static files」というエラーになります。
