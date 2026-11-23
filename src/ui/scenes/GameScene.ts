@@ -104,7 +104,7 @@ export class GameScene extends Phaser.Scene {
     if (this.settings.mode === "2p") return [humanController(), humanController()];
     const { level } = this.settings;
     const cpu = cpuController<ReversiState, ReversiMove>(
-      (state, signal) => this.worker.think(state, level, signal),
+      (state, signal) => this.worker.think("reversi", state, level, signal),
       CPU_MIN_DELAY_MS,
     );
     return this.settings.humanDisc === 1 ? [humanController(), cpu] : [cpu, humanController()];

@@ -86,6 +86,16 @@ export class TitleScene extends Phaser.Scene {
       },
     });
 
+    // Excalibur.js で作った四目並べのページへ
+    new Button(this, L.otherGame.x, L.otherGame.y, STRINGS.otherGame, {
+      width: 300,
+      height: 64,
+      fontSize: 26,
+      onClick: () => {
+        window.location.href = "./four-in-a-row.html";
+      },
+    });
+
     this.refresh = () => {
       const s = this.settings;
       const cpu = s.mode === "cpu";

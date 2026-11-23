@@ -1,19 +1,14 @@
 import { searchBestMove } from "../../ai/alphabeta";
 import { greedyMove } from "../../ai/greedy";
 import { randomMove } from "../../ai/random-player";
+import type { CpuLevel } from "../../ai/types";
 import type { Rng } from "../../core/random";
 import { countDiscs } from "./board";
 import { evaluateFull, evaluatePosition } from "./evaluate";
 import { reversi } from "./rules";
 import type { ReversiMove, ReversiState } from "./types";
 
-export type CpuLevel = "weak" | "medium" | "strong";
-
-export const CPU_LEVEL_LABELS: Record<CpuLevel, string> = {
-  weak: "弱",
-  medium: "中",
-  strong: "強",
-};
+export { CPU_LEVEL_LABELS, type CpuLevel } from "../../ai/types";
 
 export interface CpuOptions {
   /** 「強」の思考時間（ミリ秒） */

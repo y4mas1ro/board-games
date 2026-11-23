@@ -11,6 +11,7 @@ export const STRINGS = {
   colorBlack: "黒（先手）",
   colorWhite: "白（後手）",
   start: "スタート",
+  otherGame: "四目並べで遊ぶ ›",
   undo: "1手戻す",
   restart: "最初から",
   backToTitle: "タイトルへ",
