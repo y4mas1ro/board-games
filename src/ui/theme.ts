@@ -44,6 +44,7 @@ export const LAYOUT = {
     colorBlack: { x: 230, y: 700 },
     colorWhite: { x: 490, y: 700 },
     start: { x: 360, y: 900 },
+    otherGame: { x: 360, y: 1010 },
   },
   game: {
     undo: { x: 140, y: 960 },

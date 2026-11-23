@@ -1,7 +1,8 @@
-import { createRng } from "../core/random";
-import { chooseReversiMove, type CpuLevel } from "../games/reversi/ai";
-import type { ReversiMove, ReversiState } from "../games/reversi/types";
-import type { ThinkRequest, ThinkResponse } from "./worker-protocol";
+import { thinkMove } from "./think";
+import type { CpuLevel } from "./types";
+import type { ThinkRequest, ThinkResponse, WorkerGameId, WorkerGames } from "./worker-protocol";
+
+type Move = WorkerGames[WorkerGameId]["move"];
 
 /**
  * Web Worker に思考を依頼するクライアント。
@@ -12,19 +13,28 @@ export class CpuWorkerClient {
   private seq = 0;
   private readonly pending = new Map<
     number,
-    { resolve: (move: ReversiMove) => void; reject: (error: unknown) => void }
+    { resolve: (move: Move) => void; reject: (error: unknown) => void }
   >();
 
-  think(state: ReversiState, level: CpuLevel, signal: AbortSignal): Promise<ReversiMove> {
+  think<G extends WorkerGameId>(
+    gameId: G,
+    state: WorkerGames[G]["state"],
+    level: CpuLevel,
+    signal: AbortSignal,
+  ): Promise<WorkerGames[G]["move"]> {
     const seed = Math.floor(Math.random() * 2 ** 31);
+    const request = { id: ++this.seq, gameId, state, level, seed } as Extract<
+      ThinkRequest,
+      { gameId: G }
+    >;
     if (typeof Worker === "undefined") {
-      return Promise.resolve(chooseReversiMove(state, level, createRng(seed)));
+      return Promise.resolve(thinkMove<G>(request));
     }
     if (signal.aborted) return Promise.reject(signal.reason);
     const worker = this.ensureWorker();
-    const id = ++this.seq;
-    return new Promise<ReversiMove>((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+    const { id } = request;
+    return new Promise<WorkerGames[G]["move"]>((resolve, reject) => {
+      this.pending.set(id, { resolve: resolve as (move: Move) => void, reject });
       signal.addEventListener(
         "abort",
         () => {
@@ -35,7 +45,6 @@ export class CpuWorkerClient {
         },
         { once: true },
       );
-      const request: ThinkRequest = { id, gameId: "reversi", state, level, seed };
       worker.postMessage(request);
     });
   }

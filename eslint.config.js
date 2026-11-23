@@ -3,13 +3,21 @@ import tseslint from "typescript-eslint";
 import globals from "globals";
 
 // 層の依存ルール（docs/design.md 2章）:
-// core / games / ai / session は Phaser・UI に依存してはいけない
+// core / games / ai / session は Phaser・Excalibur・UI に依存してはいけない
 const noUiImports = {
   "no-restricted-imports": [
     "error",
     {
-      paths: [{ name: "phaser", message: "ルール層・AI・セッションは Phaser に依存できません" }],
-      patterns: [{ group: ["**/ui/**", "**/ui"], message: "ルール層から UI へは依存できません" }],
+      paths: [
+        { name: "phaser", message: "ルール層・AI・セッションは Phaser に依存できません" },
+        { name: "excalibur", message: "ルール層・AI・セッションは Excalibur に依存できません" },
+      ],
+      patterns: [
+        {
+          group: ["**/ui/**", "**/ui", "**/excalibur/**", "**/excalibur"],
+          message: "ルール層から UI へは依存できません",
+        },
+      ],
     },
   ],
 };
@@ -31,10 +39,13 @@ export default tseslint.config(
       "no-restricted-imports": [
         "error",
         {
-          paths: [{ name: "phaser", message: "core は Phaser に依存できません" }],
+          paths: [
+            { name: "phaser", message: "core は Phaser に依存できません" },
+            { name: "excalibur", message: "core は Excalibur に依存できません" },
+          ],
           patterns: [
             {
-              group: ["**/ui/**", "**/games/**", "**/ai/**", "**/session/**"],
+              group: ["**/ui/**", "**/excalibur/**", "**/games/**", "**/ai/**", "**/session/**"],
               message: "core は他の層に依存できません",
             },
           ],
