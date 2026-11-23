@@ -8,6 +8,8 @@
   "build": {
     "command": "pnpm build",
   },
+  // PR ごとのプレビュー（npx wrangler preview）に必要。中身は空でよい
+  "previews": {},
   "assets": {
     "directory": "./dist",
   },
