@@ -48,7 +48,7 @@ Cloudflare のダッシュボードで一度だけ設定すれば、`main` へ�
 2. リポジトリ `y4mas1ro/board-games` を選択
 3. 設定
    - Project name: `board-games`（`wrangler.jsonc` の `name` と同じにする。変える場合は両方を合わせる）
-   - Build command: `pnpm build`
+   - Build command: `pnpm build`（空欄でも可。`wrangler.jsonc` の設定でデプロイ前に自動でビルドされる）
    - Deploy command: `npx wrangler deploy`（既定のまま）
    - 環境変数（Build variables）: `NODE_VERSION` = `22`
 4. **Deploy**

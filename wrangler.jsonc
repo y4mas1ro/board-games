@@ -4,6 +4,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "board-games",
   "compatibility_date": "2026-11-01",
+  // ダッシュボードでビルドコマンドを設定していなくても、デプロイ前に必ずビルドする
+  "build": {
+    "command": "pnpm build",
+  },
   "assets": {
     "directory": "./dist",
   },
